@@ -97,6 +97,8 @@ Add the `zoo-remote` server to the list of `mcpServers` available (if this is yo
 }
 ```
 
+To retrieve a new token and update your settings file you can run the script `update_token.sh` to insert the updated token into the MCP server settings.
+
 ### Use one of the MCP Server's tools
 Start the Gemini CLI from your shell:
 ```
