@@ -20,7 +20,7 @@ Authenticate the `gcloud` CLI using the following command:
 gcloud auth application-default login
 ```
 
-This will trigger an OAuth 2.0 flow and will prompt you to login to your Google account. Log in to your account using your credentials return to your termianl once completed.
+This will trigger an OAuth 2.0 flow and will prompt you to login to your Google account. Log in to your account using your credentials then return to your terminal once completed.
 
 ### Deploy MCP server to Cloud Run
 Set the environment variables related to your GCP project in the `set_env.sh` script. From the shell terminal run the following to source its variables:
