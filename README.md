@@ -81,7 +81,7 @@ Open your Gemini CLI settings file:
 vi ~/.gemini/settings.json
 ```
 
-
+Add the `zoo-remote` server to the list of `mcpServers` available (if this is your first one, you can copy the settings below).
 ```
 {
   "mcpServers": {
