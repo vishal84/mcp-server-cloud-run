@@ -58,5 +58,60 @@ export ID_TOKEN=$(gcloud auth print-identity-token)
 You may need to re-run the command to export an ID_TOKEN if the token timteout expires.
 
 
-## Test the MCP server with an Authetnicated MCP client
+## Use an MCP Client to use tools on the MCP Server
+To test the MCP Server and its authentication requirement, you will need an MCP Client.
 
+To quickly test this setup, you can use the `Gemini CLI`. To install it you can run the following command from your shell:
+```
+npm install -g @google/gemini-cli@latest
+```
+
+This will install the latest `Gemini CLI` and requires having node package manager (npm) installed.
+
+### Configure `Gemini CLI` settings.json file
+To tell the Gemini CLI to use your Cloud Run MCP Server with required Authentication parameters run the following in your terminal to set required environment variables.
+
+```
+export PROJECT_NUMBER=$(gcloud projects describe $GOOGLE_CLOUD_PROJECT --format="value(projectNumber)")
+export ID_TOKEN=$(gcloud auth print-identity-token)
+```
+
+Open your Gemini CLI settings file:
+```
+vi ~/.gemini/settings.json
+```
+
+
+```
+{
+  "mcpServers": {
+    "zoo-remote": {
+      "httpUrl": "https://zoo-mcp-server-$PROJECT_NUMBER.$GOOGLE_CLOUD_LOCATION.run.app/mcp/",
+      "headers": {
+        "Authorization": "Bearer $ID_TOKEN"
+      }
+    }
+  },
+  "selectedAuthType": "cloud-shell",
+  "hasSeenIdeIntegrationNudge": true
+}
+```
+
+### Use one of the MCP Server's tools
+Start the Gemini CLI from your shell:
+```
+gemini
+```
+
+List MCP tools available to the Gemini CLI (MCP Client):
+```
+/mcp
+```
+
+Ask gemini to find something in the zoo:
+```
+Where can I find walruses?
+```
+*You may need to tell the Gemini CLI to allow execution of the MCP tool running on the remote server.*
+
+The output should indicate that an MCP server tool defined in `server.py` was used.
