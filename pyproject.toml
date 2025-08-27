@@ -1,0 +1,8 @@
+[project]
+name = "mcp-server-cloud-run"
+version = "0.1.0"
+description = "A sample MCP Server on Cloud Run secured via OAuth 2.0"
+requires-python = ">=3.13"
+dependencies = [
+    "fastmcp==2.11.1",
+]
