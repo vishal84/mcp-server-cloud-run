@@ -49,14 +49,13 @@ gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
     --role='roles/run.invoker'
 ```
 
-Save your Google Cloud credentials and project number in environment variables for the use in the Gemini CLI tool.
+Save your Google Cloud credentials and project number in environment variables for use in the Gemini CLI tool.
 ```
 export PROJECT_NUMBER=$(gcloud projects describe $GOOGLE_CLOUD_PROJECT --format="value(projectNumber)")
 export ID_TOKEN=$(gcloud auth print-identity-token)
 ```
 
-You may need to re-run the command to export an ID_TOKEN if the token timteout expires.
-
+You may need to re-run the command to export an `ID_TOKEN` if the token timteout expires.
 
 ## Use an MCP Client to use tools on the MCP Server
 To test the MCP Server and its authentication requirement, you will need an MCP Client.
@@ -69,19 +68,14 @@ npm install -g @google/gemini-cli@latest
 This will install the latest `Gemini CLI` and requires having node package manager (npm) installed.
 
 ### Configure `Gemini CLI` settings.json file
-To tell the Gemini CLI to use your Cloud Run MCP Server with required Authentication parameters run the following in your terminal to set required environment variables.
-
-```
-export PROJECT_NUMBER=$(gcloud projects describe $GOOGLE_CLOUD_PROJECT --format="value(projectNumber)")
-export ID_TOKEN=$(gcloud auth print-identity-token)
-```
+To tell the Gemini CLI to use your Cloud Run MCP Server with required Authentication parameters:
 
 Open your Gemini CLI settings file:
 ```
 vi ~/.gemini/settings.json
 ```
 
-Add the `zoo-remote` server to the list of `mcpServers` available (if this is your first one, you can copy the settings below).
+Add the `zoo-remote` server to the list of `mcpServers` available. Replace the `PROJECT_NUMBER` and `GOOGLE_CLOUD_LOCATION` with the settings for your project (if this is your first one, you can copy the settings below).
 ```
 {
   "mcpServers": {
