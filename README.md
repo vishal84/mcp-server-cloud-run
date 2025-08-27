@@ -23,19 +23,40 @@ gcloud auth application-default login
 This will trigger an OAuth 2.0 flow and will prompt you to login to your Google account. Log in to your account using your credentials return to your termianl once completed.
 
 ### Deploy MCP server to Cloud Run
-Set environment variables related to your GCP project:
+Set the environment variables related to your GCP project in the `set_env.sh` script. From the shell terminal run the following to source its variables:
 ```
-export PROJECT_ID="gsi-agentspace"
-export REGION="us-central1"
-````
+chmod +x set_env.sh
+source set_env.sh
+```
 
 Run the following command to deploy the MCP server to Cloud Run:
 ```
 gcloud run deploy zoo-mcp-server \
     --no-allow-unauthenticated \
-    --project=$PROJECT \
-    --region=$REGION \
+    --project=$GOOGLE_CLOUD_PROJECT \
+    --region=$GOOGLE_CLOUD_LOCATION \
     --source=. \
     --labels=demo=mcp-server-cloud-run
-    --allow-unauthenticated-proxy
 ```
+
+### Bind `Cloud Run: Invoker` role to end user account
+The `--no-allow-unauthenticated` flag of the Cloud Run deployment command secures the MCP server by requiring an `Authorization` header with a valid `Bearer <token>` is presented to the server to allow traffic through.
+
+Run the following command to give your user account permissions to invoke the MCP server on Cloud Run.
+```
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
+    --member=user:$(gcloud config get-value account) \
+    --role='roles/run.invoker'
+```
+
+Save your Google Cloud credentials and project number in environment variables for the use in the Gemini CLI tool.
+```
+export PROJECT_NUMBER=$(gcloud projects describe $GOOGLE_CLOUD_PROJECT --format="value(projectNumber)")
+export ID_TOKEN=$(gcloud auth print-identity-token)
+```
+
+You may need to re-run the command to export an ID_TOKEN if the token timteout expires.
+
+
+## Test the MCP server with an Authetnicated MCP client
+
