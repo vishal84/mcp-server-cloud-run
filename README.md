@@ -1,4 +1,4 @@
-# mcp-server-cloud-run
+# Run an secured MCP Server on Cloud Run
 
 An example MCP server deployable to Cloud Run that is secured by authentication and requires an identity token to access.
 
